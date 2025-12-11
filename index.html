@@ -1,0 +1,168 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Rahul Search</title>
+  <style>
+    body {
+      margin: 7;
+      padding: 14;
+      font-family: Arial, sans-serif;
+      background: #fff;
+      color: #000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      transition: background 0.3s, color 0.3s;
+    }
+    .logo {
+      font-size: 80px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    .logo span:nth-child(1) { color: #4285F4; }
+    .logo span:nth-child(2) { color: #EA4335; }
+    .logo span:nth-child(3) { color: #FBBC05; }
+    .logo span:nth-child(4) { color: #34A853; }
+    .logo span:nth-child(5) { color: #EA4335; }
+    .search-box {
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+    input[type="text"] {
+      width: 500px;
+      padding: 12px 40px 12px 20px;
+      font-size: 18px;
+      border: 1px solid #dcdcdc;
+      border-radius: 24px;
+      outline: none;
+    }
+    .mic {
+      position: absolute;
+      right: 10px;
+      cursor: pointer;
+    }
+    .buttons {
+      margin-top: 20px;
+    }
+    .buttons button {
+      padding: 10px 20px;
+      margin: 5px;
+      border: none;
+      background-color: #f8f9fa;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .buttons button:hover {
+      background-color: #e8e8e8;
+    }
+    .dark-mode {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      cursor: pointer;
+    }
+    .dark {
+      background: #202124;
+      color: #fff;
+    }
+    .autocomplete {
+      position: absolute;
+      top: 45px;
+      background: white;
+      border: 1px solid #ccc;
+      width: 500px;
+      border-radius: 0 0 10px 10px;
+      z-index: 10;
+    }
+    .autocomplete div {
+      padding: 10px;
+      cursor: pointer;
+    }
+    .autocomplete div:hover {
+      background: #f1f1f1;
+    }
+  </style>
+</head>
+<body>
+  <div class="dark-mode">🌓</div>
+  <div class="logo">
+    <span>R</span><span>a</span><span>h</span><span>u</span><span>l</span>
+  </div>
+  <div class="top-nav">
+  <div class="left-links">
+    <a href="https://mail.google.com" target="_blank">Gmail</a>
+    <a href="https://www.google.com/imghp" target="_blank">Images</a>
+    <a href="https://www.youtube.com" target="_blank">YouTube</a>
+    <a href="https://news.google.com" target="_blank">News</a>
+    <a href="https://drive.google.com" target="_blank">Drive</a>
+  </div>
+  <div class="right-links">
+    <div class="apps-icon">☰</div>
+    <button class="signin">Sign In</button>
+  </div>
+</div>
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="Search Rahul...">
+    <img src="https://img.icons8.com/ios-filled/24/000000/microphone.png" class="mic" onclick="startVoice()" alt="Mic">
+    <div class="autocomplete" id="autocompleteBox"></div>
+  </div>
+  <div class="buttons">
+    <button onclick="search('web')">Rahul Search</button>
+    <button onclick="search('images')">Images</button>
+    <button onclick="search('videos')">Videos</button>
+    <button onclick="search('news')">News</button>
+  </div>
+
+  <script>
+    const suggestions = ["Rahul Chaurasiya", "Motivational Shayari", "Cyber Security", "Bug Bounty", "Ethical Hacking"];
+    const input = document.getElementById("searchInput");
+    const box = document.getElementById("autocompleteBox");
+
+    input.addEventListener("input", () => {
+      const val = input.value.toLowerCase();
+      box.innerHTML = "";
+      if (val) {
+        suggestions.filter(s => s.toLowerCase().includes(val)).forEach(s => {
+          const div = document.createElement("div");
+          div.textContent = s;
+          div.onclick = () => {
+            input.value = s;
+            box.innerHTML = "";
+          };
+          box.appendChild(div);
+        });
+      }
+    });
+
+    function search(type) {
+      const query = encodeURIComponent(input.value);
+      let url = "";
+      switch(type) {
+        case 'web': url = `https://www.google.com/search?q=${query}`; break;
+        case 'images': url = `https://www.google.com/search?tbm=isch&q=${query}`; break;
+        case 'videos': url = `https://www.youtube.com/results?search_query=${query}`; break;
+        case 'news': url = `https://news.google.com/search?q=${query}`; break;
+      }
+      window.open(url, "_blank");
+    }
+
+    function startVoice() {
+      const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+      recognition.lang = "en-IN";
+      recognition.start();
+      recognition.onresult = function(event) {
+        input.value = event.results[0][0].transcript;
+      };
+    }
+
+    document.querySelector(".dark-mode").addEventListener("click", () => {
+      document.body.classList.toggle("dark");
+    });
+  </script>
+</body>
+</html>    
