@@ -1,0 +1,59 @@
+body {
+  transition: background 10s, color 10s;
+}
+:root {
+  --primary-bg: linear-gradient(135deg, #ff9a9e, #fad0c4);
+  --primary-text: #111;
+}
+body {
+  background: var(--primary-bg);
+  color: var(--primary-text);
+  transition: background 0.5s ease, color 1s ease;
+}
+.logo {
+  animation: glow 3s infinite alternate;
+}
+@keyframes glow {
+  from { text-shadow: 0 0 10px #fff; }
+  to { text-shadow: 0 0 20px #34A853; }
+}
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+.search-box input {
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 24px;
+}
+h1 {
+  font-size: clamp(2rem, 5vw, 4rem);
+}
+img {
+  filter: drop-shadow(0 0 10px #4285F4) brightness(1.2);
+  mix-blend-mode: screen;
+}
+.section {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1s, transform 1s;
+}
+.section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+:root {
+  --bg-gradient: linear-gradient(135deg,#1a1a1a,#333);
+  --text-color: #fff;
+}
+body {
+  background: var(--bg-gradient);
+  color: var(--text-color);
+  transition: background 0.5s ease, color 1s ease;
+}
+.logo {
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: bold;
+  animation: glow 3s infinite alternate;
+}
